@@ -7,14 +7,14 @@ public class Enemy : MonoBehaviour {
     public float maxSpeed;
     public int hp;
     Vector3 move;
-    float maxDist;
+    float DistanceTravelled;
 
 
 	// Use this for initialization
 	void Start () {
         hp = 10;
         maxSpeed = 0.1f;
-        maxDist = 0;
+        DistanceTravelled = 0;
         move = new Vector3(maxSpeed, 0, 0);
 
 		
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.Translate(move);
-        maxDist += move.magnitude;
+        DistanceTravelled += move.magnitude;
 		
 	}
 
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    public float getMaxDist(){
-        return maxDist;
+    public float getDist(){
+        return DistanceTravelled;
     }
 }

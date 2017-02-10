@@ -5,13 +5,13 @@ using UnityEngine;
 public class Tower : MonoBehaviour {
 
 	// rate of fire in seconds
-	float fireRate = 1.0f;
+	public float fireRate = 1.0f;
 
 	// damage each attack deals
-	int damage = 1;
+	public int damage = 1;
 
 	// radius the tower can attack in
-	float range = 4.0f;
+	public float range = 4.0f;
 
 	// tracks time between shots
 	private float fireCooldown = 0.0f;
@@ -23,12 +23,13 @@ public class Tower : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rangeCollider = GetComponent<SphereCollider> ();
+        rangeCollider.radius = range;
 		enemies = new List<GameObject> ();
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == "Enemy") {
-			enemies.Add (other);
+		if (other.gameObject.tag == "Enemy") {
+			enemies.Add (other.gameObject);
 		}
 	}
 
@@ -36,13 +37,14 @@ public class Tower : MonoBehaviour {
 	// if not, maybe remove dead enemies from list in AttemptAttack()?
 	void OnTriggerExit(Collider other) {
 		// Destroy everything that leaves the trigger
-		enemies.Remove(other);
+		enemies.Remove(other.gameObject);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Enemy target = Aim ();
-		if (target != null && fireCooldown <= 0) {
+
+        if (target != null && fireCooldown <= 0) {
 			Attack (target);
 		} else {
 			fireCooldown -= Time.deltaTime;
@@ -51,10 +53,16 @@ public class Tower : MonoBehaviour {
 
 	// Checks if there is at least one enemy to attack and then attacks
 	Enemy Aim() {
+        
 		Enemy target = null;
-		foreach (Enemy enemy in enemies) {
-			if (enemy.isAlive && (target == null || enemy.distanceTraveled > target.distanceTraveled)) {
-				target = enemy;
+		foreach (GameObject obj in enemies) {
+            
+            //getting enemy component of gameObjects in enemy list
+            Enemy enemy = obj.GetComponent<Enemy>();
+
+			if (target == null || enemy.getDist() > target.getDist()) {
+                print("Aiming");
+                target = enemy;
 			}
 		}
 		if (target != null) {
@@ -64,7 +72,8 @@ public class Tower : MonoBehaviour {
 	}
 
 	void Attack(Enemy target) {
+        print("Attacking");
 		fireCooldown = fireRate;
-		enemy.takeDamage (damage);
+		target.takeDamage (damage);
 	}
 }
