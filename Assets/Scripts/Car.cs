@@ -21,6 +21,7 @@ public class Car : Vehicle
     bool wp3 = false;
     bool wp4 = false;
     bool wp5 = false;
+    bool wp6 = false;
     // Call Inherited Start and then do our own
     override public void Start()
     {
@@ -34,11 +35,13 @@ public class Car : Vehicle
         waypoints.Add(GameObject.FindGameObjectWithTag("Waypoint3"));
         waypoints.Add(GameObject.FindGameObjectWithTag("Waypoint4"));
         waypoints.Add(GameObject.FindGameObjectWithTag("Waypoint5"));
+        waypoints.Add(GameObject.FindGameObjectWithTag("Waypoint6"));
         wp1 = false;
         wp2 = false;
         wp3 = false;
         wp4 = false;
         wp5 = false;
+        wp6 = false;
     }
 
     // Update is called once per frame
@@ -63,15 +66,16 @@ public class Car : Vehicle
         if (wp4 == false && wp3 == true && Vector3.Distance(transform.position, waypoints[3].transform.position) < 5)
         {
             wp4 = true;
-            wp1 = false;
+            wp5 = false;
         }
-        
-        
-                
-                //}
-            }
-        
-    
+        if (wp5 == false && wp4 == true && Vector3.Distance(transform.position, waypoints[4].transform.position) < 5)
+        {
+            wp5 = true;
+            wp6 = false;
+        }
+
+
+    }
 
     // calculate all of the steering forces on the seeker
     protected override void CalcSteeringForces()
@@ -93,13 +97,13 @@ public class Car : Vehicle
         {
             steeringForce += Seek(waypoints[3].transform.position);
         }
-        if (wp4 == true && wp1 == false)
+        if (wp4 == true && wp5 == false)
         {
-            steeringForce += Seek(waypoints[0].transform.position);
+            steeringForce += Seek(waypoints[4].transform.position);
         }
-        if (wp5 == true)
+        if (wp5 == true && wp6 == false)
         {
-
+            steeringForce += Seek(waypoints[5].transform.position);
         }
             //limit the 1 steering force (ultimate force) 
             steeringForce = Vector3.ClampMagnitude(steeringForce, maxForce);

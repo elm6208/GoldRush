@@ -15,15 +15,15 @@ public class Enemy : MonoBehaviour {
         hp = 10;
         maxSpeed = 0.1f;
         DistanceTravelled = 0;
-        move = new Vector3(maxSpeed, 0, 0);
+        //move = new Vector3(maxSpeed, 0, 0);
 
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Translate(move);
-        DistanceTravelled += move.magnitude;
+      //  transform.Translate(move);
+      //  DistanceTravelled += move.magnitude;
 		
 	}
 
@@ -51,16 +51,7 @@ public class Enemy : MonoBehaviour {
 
     }
 
-    void updateTarget(GameObject newTarg){
-        currTarget = newTarg;
-        if(move.x == 0){
-            move.x = maxSpeed;
-            move.y = 0;
-        }else{
-            move.y = maxSpeed;
-            move.x = 0;
-        }
-    }
+    
 
     public float getDist(){
         return DistanceTravelled;
