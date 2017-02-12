@@ -55,10 +55,17 @@ public class Tower : MonoBehaviour {
 	Enemy Aim() {
         
 		Enemy target = null;
-		foreach (GameObject obj in enemies) {
+		for(int i = 0; i < enemies.Count; i++) {
             
+			// check if enemy has been killed
+			if (enemies[i] == null) {
+				enemies.RemoveAt (i);
+				i--;
+				continue;
+			}
+
             //getting enemy component of gameObjects in enemy list
-            Enemy enemy = obj.GetComponent<Enemy>();
+			Enemy enemy = enemies[i].GetComponent<Enemy>();
 
 			if (target == null || enemy.getDist() > target.getDist()) {
                 print("Aiming");
