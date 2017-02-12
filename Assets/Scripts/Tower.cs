@@ -32,9 +32,7 @@ public class Tower : MonoBehaviour {
 			enemies.Add (other.gameObject);
 		}
 	}
-
-	// TODO: check if destroying enemies causes them to trigger this
-	// if not, maybe remove dead enemies from list in AttemptAttack()?
+		
 	void OnTriggerExit(Collider other) {
 		// Destroy everything that leaves the trigger
 		enemies.Remove(other.gameObject);
@@ -50,8 +48,7 @@ public class Tower : MonoBehaviour {
 			fireCooldown -= Time.deltaTime;
 		}
 	}
-
-	// Checks if there is at least one enemy to attack and then attacks
+		
 	Enemy Aim() {
         
 		Enemy target = null;
@@ -68,12 +65,13 @@ public class Tower : MonoBehaviour {
 			Enemy enemy = enemies[i].GetComponent<Enemy>();
 
 			if (target == null || enemy.getDist() > target.getDist()) {
-                print("Aiming");
                 target = enemy;
 			}
 		}
 		if (target != null) {
-			this.transform.LookAt (target.transform);
+			Vector3 t = target.transform.position;
+			t.y = transform.position.y;
+			this.transform.LookAt (t);
 		}
 		return target;
 	}
