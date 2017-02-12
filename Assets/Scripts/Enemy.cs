@@ -22,10 +22,10 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-      //  transform.Translate(move);
-      //  DistanceTravelled += move.magnitude;
-		
-	}
+        //  transform.Translate(move);
+        //  DistanceTravelled += move.magnitude;
+        gameObject.GetComponent<Renderer>().material.color = Color.white;
+    }
 
     void onTriggerEnter(Collider collision){
         GameObject thing = collision.gameObject;
@@ -41,8 +41,8 @@ public class Enemy : MonoBehaviour {
 
     public void takeDamage(int dmg){
         hp -= dmg;
-
-        if(hp <= 0){
+        gameObject.GetComponent<Renderer>().material.color = Color.red;
+        if (hp <= 0){
             Destroy(this.gameObject);
         }
     }
