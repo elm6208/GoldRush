@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour {
     Vector3 move;
     float DistanceTravelled;
 
+	public int value = 1;
+
 
 	// Use this for initialization
 	void Start () {
@@ -43,9 +45,14 @@ public class Enemy : MonoBehaviour {
         hp -= dmg;
         gameObject.GetComponent<Renderer>().material.color = Color.red;
         if (hp <= 0){
-            Destroy(this.gameObject);
+			onDeath ();
         }
     }
+
+	private void onDeath(){
+		Destroy(this.gameObject);
+		GameObject.FindWithTag ("MainCamera").GetComponent<GameController>().money += value;
+	}
 
     public void moveToTarget(){
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+	public int money;
+	public int lives;
+
     public float spawnTimer;
     public int enemiesInWave;
     public int numWaves;
@@ -16,6 +19,13 @@ public class GameController : MonoBehaviour {
     private float timerCountdown;
     private int enemyCountdown;
     private int waveCountdown;
+
+	public int CurrentWave
+	{
+		// not perfect, but we can change it when we add pauses
+		// between the waves
+		get { return numWaves - waveCountdown + 1; }
+	}
 
 	// Use this for initialization
 	void Start () {
