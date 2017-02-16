@@ -38,8 +38,11 @@ public class GameController : MonoBehaviour {
 	void Update () {
 
         //place tower
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && money >= 5)
         {
+            //take away moneys
+            money -= 5;
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
             if(Physics.Raycast(ray, out hit))
@@ -72,6 +75,8 @@ public class GameController : MonoBehaviour {
                 //if this is the end of the wave
                 if (enemyCountdown <= 0)
                 {
+                    //increase enemies in wave by 2
+                    enemiesInWave += 2;
                     //reset enemy countdown
                     enemyCountdown = enemiesInWave;
                     //set longer timer for in between waves
