@@ -14,7 +14,7 @@ public class Button : MonoBehaviour {
 		
 	}
 
-    void OnClick(){
-
+    public void OnClick(){
+        Application.LoadLevel("Level_01");
     }
 }

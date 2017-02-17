@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour {
     public void loseLife(){
         lives--;
         if(lives <= 0){
-
+            Application.LoadLevel("Lose");
         }
     }
 	
