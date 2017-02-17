@@ -29,11 +29,17 @@ public class Enemy : MonoBehaviour {
         gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
 
-    void onTriggerEnter(Collider collision){
+    void OnTriggerEnter(Collider collision){
         GameObject thing = collision.gameObject;
+        if(thing.tag == "End"){
+            //getting gamecontroller and reducing life
+            GameObject.FindWithTag("MainCamera").GetComponent<GameController>().loseLife();
 
-        if(thing.tag == "target"){
-            //updateTarget(thing.nextTarg);
+            Destroy(this.gameObject);
+
+
+
+            
         }
 
 

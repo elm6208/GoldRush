@@ -33,6 +33,13 @@ public class GameController : MonoBehaviour {
         enemyCountdown = enemiesInWave;
         waveCountdown = numWaves;
 	}
+
+    public void loseLife(){
+        lives--;
+        if(lives <= 0){
+
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -41,7 +48,7 @@ public class GameController : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && money >= 5)
         {
             //take away moneys
-            money -= 5;
+            //money -= 5;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
@@ -52,6 +59,7 @@ public class GameController : MonoBehaviour {
                 {
                     //instantiate tower at ray x and z
                     Instantiate(tower, new Vector3(hit.point.x, 3.0f, hit.point.z), Quaternion.identity);
+                    money -= 5;
                 }
             }
             //Instantiate(tower, new Vector3(mousePosInWorld.x, 3, mousePosInWorld.z), Quaternion.identity);
