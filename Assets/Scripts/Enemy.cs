@@ -57,7 +57,8 @@ public class Enemy : MonoBehaviour {
 	 protected void onDeath(){
 		Destroy(this.gameObject);
 		GameObject.FindWithTag ("MainCamera").GetComponent<GameController>().money += value;
-	}
+
+    }
 
     public float getDist(){
         return DistanceTravelled;

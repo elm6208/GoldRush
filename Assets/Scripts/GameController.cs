@@ -43,12 +43,11 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        checkWin();
 
         //place tower
         if (Input.GetMouseButtonDown(0) && money >= 5)
         {
-            //take away moneys
-            //money -= 5;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
@@ -59,6 +58,7 @@ public class GameController : MonoBehaviour {
                 {
                     //instantiate tower at ray x and z
                     Instantiate(tower, new Vector3(hit.point.x, 3.0f, hit.point.z), Quaternion.identity);
+                    //take away money
                     money -= 5;
                 }
             }
@@ -105,5 +105,16 @@ public class GameController : MonoBehaviour {
         }
         
 	}
+
+    public void checkWin(){
+        if(waveCountdown <= 0){
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (enemies.Length == 0){
+                Application.LoadLevel("Win");
+            }
+               
+        }
+
+    }
 
 }
