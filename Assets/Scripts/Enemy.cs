@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
-    public GameObject currTarget;
     public float maxSpeed;
     public int hp;
     Vector3 move;
@@ -23,13 +22,13 @@ public class Enemy : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
         //  transform.Translate(move);
         //  DistanceTravelled += move.magnitude;
         gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
 
-    void OnTriggerEnter(Collider collision){
+    protected void OnTriggerEnter(Collider collision){
         GameObject thing = collision.gameObject;
         if(thing.tag == "End"){
             //getting gamecontroller and reducing life
@@ -47,7 +46,7 @@ public class Enemy : MonoBehaviour {
         //collision handling
     }
 
-    public void takeDamage(int dmg){
+    public virtual void takeDamage(int dmg, bool pierce){
         hp -= dmg;
         gameObject.GetComponent<Renderer>().material.color = Color.red;
         if (hp <= 0){
@@ -55,16 +54,10 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-	private void onDeath(){
+	 protected void onDeath(){
 		Destroy(this.gameObject);
 		GameObject.FindWithTag ("MainCamera").GetComponent<GameController>().money += value;
 	}
-
-    public void moveToTarget(){
-
-    }
-
-    
 
     public float getDist(){
         return DistanceTravelled;

@@ -79,6 +79,7 @@ public class Tower : MonoBehaviour {
 	void Attack(Enemy target) {
         print("Attacking");
 		fireCooldown = fireRate;
-		target.takeDamage (damage);
+        //attack is not piercing so bool is false
+		target.takeDamage (damage, false);
 	}
 }
