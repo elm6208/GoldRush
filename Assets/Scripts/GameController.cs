@@ -48,6 +48,7 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        checkWin();
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			SetPlacer (TowerType.NONE);
@@ -56,8 +57,6 @@ public class GameController : MonoBehaviour {
         //place tower
 		if (Input.GetMouseButtonDown(0) && placer.Placing != TowerType.NONE)
         {
-            //take away moneys
-            //money -= 5;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
@@ -68,8 +67,10 @@ public class GameController : MonoBehaviour {
                 {
                     //instantiate tower at ray x and z
                     Instantiate(tower, new Vector3(hit.point.x, 3.0f, hit.point.z), Quaternion.identity);
+
 					money -= placer.Placing.Cost();
 					SetPlacer (TowerType.NONE);
+
                 }
             }
             //Instantiate(tower, new Vector3(mousePosInWorld.x, 3, mousePosInWorld.z), Quaternion.identity);
@@ -115,8 +116,18 @@ public class GameController : MonoBehaviour {
         }
         
 	}
-
+		
 	public void SetPlacer(TowerType towerType) {
 		placer.Placing = towerType;
 	}
+
+    public void checkWin(){
+        if(waveCountdown <= 0){
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (enemies.Length == 0){
+                Application.LoadLevel("Win");
+            }      
+        }
+    }
+
 }
