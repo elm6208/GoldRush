@@ -15,10 +15,15 @@ public class GameController : MonoBehaviour {
     public float spawnY;
     public float spawnZ;
     public GameObject tower;
+    //how often the player can shoot
+    public float playerShootFrequency;
 
     private float timerCountdown;
     private int enemyCountdown;
     private int waveCountdown;
+
+    // timer tracking how long it has been since the player shot
+    private float playerShootTimer;
 
 	public GameObject placerPrefab;
 	private Placer placer;
@@ -35,6 +40,8 @@ public class GameController : MonoBehaviour {
         timerCountdown = spawnTimer;
         enemyCountdown = enemiesInWave;
         waveCountdown = numWaves;
+
+        playerShootTimer = playerShootFrequency;
 
 		placer = Instantiate(placerPrefab, new Vector3(), Quaternion.identity).GetComponent<Placer> ();
 	}
@@ -54,8 +61,34 @@ public class GameController : MonoBehaviour {
 			SetPlacer (TowerType.NONE);
 		}
 
+        //decrease player shoot timer
+        if(playerShootTimer > 0.0f)
+        {
+            playerShootTimer -= Time.deltaTime;
+        }
+
+        //attacking enemy
+        if (Input.GetMouseButtonDown(0) && placer.Placing == TowerType.NONE && playerShootTimer <= 0.0f)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(ray, out hit))
+            {
+
+                //if the ray hits an enemy, attack the enemy
+                if (hit.collider.gameObject.tag == "Enemy")
+                {
+                    hit.collider.gameObject.GetComponent<Enemy>().takeDamage(2, false);
+
+                    playerShootTimer = playerShootFrequency;
+
+                }
+                
+            }
+        }
+
         //place tower
-		if (Input.GetMouseButtonDown(0) && placer.Placing != TowerType.NONE)
+        if (Input.GetMouseButtonDown(0) && placer.Placing != TowerType.NONE)
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
