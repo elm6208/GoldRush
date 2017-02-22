@@ -20,6 +20,9 @@ public class GameController : MonoBehaviour {
     private int enemyCountdown;
     private int waveCountdown;
 
+	public GameObject placerPrefab;
+	private Placer placer;
+
 	public int CurrentWave
 	{
 		// not perfect, but we can change it when we add pauses
@@ -32,6 +35,8 @@ public class GameController : MonoBehaviour {
         timerCountdown = spawnTimer;
         enemyCountdown = enemiesInWave;
         waveCountdown = numWaves;
+
+		placer = Instantiate(placerPrefab, new Vector3(), Quaternion.identity).GetComponent<Placer> ();
 	}
 
     public void loseLife(){
@@ -44,8 +49,12 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			SetPlacer (TowerType.NONE);
+		}
+
         //place tower
-        if (Input.GetMouseButtonDown(0) && money >= 5)
+		if (Input.GetMouseButtonDown(0) && placer.Placing != TowerType.NONE)
         {
             //take away moneys
             //money -= 5;
@@ -59,7 +68,8 @@ public class GameController : MonoBehaviour {
                 {
                     //instantiate tower at ray x and z
                     Instantiate(tower, new Vector3(hit.point.x, 3.0f, hit.point.z), Quaternion.identity);
-                    money -= 5;
+					money -= placer.Placing.Cost();
+					SetPlacer (TowerType.NONE);
                 }
             }
             //Instantiate(tower, new Vector3(mousePosInWorld.x, 3, mousePosInWorld.z), Quaternion.identity);
@@ -106,4 +116,7 @@ public class GameController : MonoBehaviour {
         
 	}
 
+	public void SetPlacer(TowerType towerType) {
+		placer.Placing = towerType;
+	}
 }
