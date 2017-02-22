@@ -21,6 +21,7 @@ public class ArmorEnemy : Enemy {
         if (armor <= 0)
         {
             hp -= dmg;
+            damageTimer = 5;
             gameObject.GetComponent<Renderer>().material.color = Color.red;
             if (hp <= 0)
             {
@@ -29,6 +30,7 @@ public class ArmorEnemy : Enemy {
         }
         //taking armor dmg if atk is piercing
         else if (armor > 0 && pierce == true){
+            gameObject.GetComponent<Renderer>().material.color = Color.blue;
             armor -= dmg;
         }
         //takes no dmg is atk isn't piercing
