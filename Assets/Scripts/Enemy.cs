@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
     float DistanceTravelled;
 
 	public int value = 1;
+    protected int damageTimer = 0;
 
 
 	// Use this for initialization
@@ -25,7 +26,10 @@ public class Enemy : MonoBehaviour {
 	protected void Update () {
         //  transform.Translate(move);
         //  DistanceTravelled += move.magnitude;
-        gameObject.GetComponent<Renderer>().material.color = Color.white;
+        damageTimer -= 1;
+        if (damageTimer <= 0){
+            gameObject.GetComponent<Renderer>().material.color = Color.white;
+        }
     }
 
     protected void OnTriggerEnter(Collider collision){
@@ -49,6 +53,7 @@ public class Enemy : MonoBehaviour {
     public virtual void takeDamage(int dmg, bool pierce){
         hp -= dmg;
         gameObject.GetComponent<Renderer>().material.color = Color.red;
+        damageTimer = 5;
         if (hp <= 0){
 			onDeath ();
         }
