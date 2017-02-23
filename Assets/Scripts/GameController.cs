@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
     public GameObject tower;
     //how often the player can shoot
     public float playerShootFrequency;
+    public int clickDamage;
 
     private float timerCountdown;
     private int enemyCountdown;
@@ -78,7 +79,7 @@ public class GameController : MonoBehaviour {
                 //if the ray hits an enemy, attack the enemy
                 if (hit.collider.gameObject.tag == "Enemy")
                 {
-                    hit.collider.gameObject.GetComponent<Enemy>().takeDamage(2, false);
+                    hit.collider.gameObject.GetComponent<Enemy>().takeDamage(clickDamage, false);
 
                     playerShootTimer = playerShootFrequency;
 
