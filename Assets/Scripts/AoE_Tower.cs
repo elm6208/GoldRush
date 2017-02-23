@@ -19,6 +19,10 @@ public class AoE_Tower : Tower {
         }
     }
 
+	public override TowerType GetType() {
+		return TowerType.DYNAMITE;
+	}
+
     void Aoe_Attack(Enemy target)
     {
         print("Lobbing bomb");
@@ -26,4 +30,6 @@ public class AoE_Tower : Tower {
         Dynamite atkr = (Dynamite)Instantiate(dynamitePrefab, transform.position, transform.rotation);
         atkr.SetTarget(target);
     }
+
+    
 }

@@ -18,9 +18,18 @@ public class Tower : MonoBehaviour {
 
 	protected List<GameObject> enemies;
 
+    public int value;
+    public int promoteCost;
+
 	// Use this for initialization
 	protected void Start () {
+		value = GetType().Cost();
+        promoteCost = 3;
 		enemies = new List<GameObject> ();
+	}
+
+	public virtual TowerType GetType() {
+		return TowerType.BASIC;
 	}
 
 	public void RangeEntered(Collider other) {
@@ -77,4 +86,19 @@ public class Tower : MonoBehaviour {
         //attack is not piercing so bool is false
 		target.takeDamage (damage, false);
 	}
+
+    void Promote()
+    {
+        fireRate -= 0.25f;
+        range += 1;
+        value += promoteCost;
+        promoteCost += 3;
+
+    }
+
+    void Settle()
+    {
+        Destroy(this.gameObject);
+        GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += value;
+    }
 }
