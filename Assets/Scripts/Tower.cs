@@ -20,8 +20,13 @@ public class Tower : MonoBehaviour {
 
 	protected List<GameObject> enemies;
 
+    public int cost;
+    public int promoteCost;
+
 	// Use this for initialization
 	protected void Start () {
+        cost = 5;
+        promoteCost = 3;
 		rangeCollider = GetComponent<SphereCollider> ();
         rangeCollider.radius = range;
 		enemies = new List<GameObject> ();
@@ -81,4 +86,19 @@ public class Tower : MonoBehaviour {
         //attack is not piercing so bool is false
 		target.takeDamage (damage, false);
 	}
+
+    void Promote()
+    {
+        fireRate -= 0.25f;
+        range += 1;
+        cost += promoteCost;
+        promoteCost += 3;
+
+    }
+
+    void Settle()
+    {
+        Destroy(this.gameObject);
+        GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += cost;
+    }
 }

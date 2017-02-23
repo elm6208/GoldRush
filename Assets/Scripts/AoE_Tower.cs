@@ -8,7 +8,8 @@ public class AoE_Tower : Tower {
 	// Use this for initialization
 	void Start () {
         rangeCollider = GetComponent<SphereCollider>();
-        
+        cost = 10;
+        promoteCost = 3;
         rangeCollider.radius = range;
         enemies = new List<GameObject>();
     }
@@ -33,4 +34,6 @@ public class AoE_Tower : Tower {
         Dynamite atkr = (Dynamite)Instantiate(dynamitePrefab, transform.position, transform.rotation);
         atkr.SetTarget(target);
     }
+
+    
 }
