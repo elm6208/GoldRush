@@ -16,24 +16,29 @@ public class Tower : MonoBehaviour {
 	// tracks time between shots
 	protected float fireCooldown = 0.0f;
 
-	protected SphereCollider rangeCollider;
-
 	protected List<GameObject> enemies;
+
+    public int value;
+    public int promoteCost;
 
 	// Use this for initialization
 	protected void Start () {
-		rangeCollider = GetComponent<SphereCollider> ();
-        rangeCollider.radius = range;
+		value = GetType().Cost();
+        promoteCost = 3;
 		enemies = new List<GameObject> ();
 	}
 
-	void OnTriggerEnter(Collider other) {
+	public virtual TowerType GetType() {
+		return TowerType.BASIC;
+	}
+
+	public void RangeEntered(Collider other) {
 		if (other.gameObject.tag == "Enemy") {
 			enemies.Add (other.gameObject);
 		}
 	}
 		
-	void OnTriggerExit(Collider other) {
+	public void RangeExited(Collider other) {
 		// Destroy everything that leaves the trigger
 		enemies.Remove(other.gameObject);
 	}
@@ -81,4 +86,19 @@ public class Tower : MonoBehaviour {
         //attack is not piercing so bool is false
 		target.takeDamage (damage, false);
 	}
+
+    void Promote()
+    {
+        fireRate -= 0.25f;
+        range += 1;
+        value += promoteCost;
+        promoteCost += 3;
+
+    }
+
+    void Settle()
+    {
+        Destroy(this.gameObject);
+        GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += value;
+    }
 }

@@ -17,7 +17,7 @@ public static class TowerTypeExtensions
 		case TowerType.BASIC:
 			return 5;
 		case TowerType.DYNAMITE:
-			return 8;
+			return 10;
 		case TowerType.TOWER3:
 			return 12;
 		case TowerType.TOWER4:

@@ -5,13 +5,6 @@ using UnityEngine;
 public class AoE_Tower : Tower {
 
     public Dynamite dynamitePrefab;
-	// Use this for initialization
-	void Start () {
-        rangeCollider = GetComponent<SphereCollider>();
-        
-        rangeCollider.radius = range;
-        enemies = new List<GameObject>();
-    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -26,6 +19,10 @@ public class AoE_Tower : Tower {
         }
     }
 
+	public override TowerType GetType() {
+		return TowerType.DYNAMITE;
+	}
+
     void Aoe_Attack(Enemy target)
     {
         print("Lobbing bomb");
@@ -33,4 +30,6 @@ public class AoE_Tower : Tower {
         Dynamite atkr = (Dynamite)Instantiate(dynamitePrefab, transform.position, transform.rotation);
         atkr.SetTarget(target);
     }
+
+    
 }

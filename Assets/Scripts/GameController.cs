@@ -14,7 +14,6 @@ public class GameController : MonoBehaviour {
     public float spawnX;
     public float spawnY;
     public float spawnZ;
-    public GameObject tower;
     //how often the player can shoot
     public float playerShootFrequency;
     public int clickDamage;
@@ -88,28 +87,7 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        //place tower
-        if (Input.GetMouseButtonDown(0) && placer.Placing != TowerType.NONE)
-        {
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit = new RaycastHit();
-            if(Physics.Raycast(ray, out hit))
-            {
-                //if the ray hits the terrain, place the tower
-                if (hit.collider.gameObject.name == "Terrain")
-                {
-                    //instantiate tower at ray x and z
-                    Instantiate(tower, new Vector3(hit.point.x, 3.0f, hit.point.z), Quaternion.identity);
-
-					money -= placer.Placing.Cost();
-					SetPlacer (TowerType.NONE);
-
-                }
-            }
-            //Instantiate(tower, new Vector3(mousePosInWorld.x, 3, mousePosInWorld.z), Quaternion.identity);
-        }
-
+        
         //do this until the last wave ends
         if(waveCountdown > 0)
         {
