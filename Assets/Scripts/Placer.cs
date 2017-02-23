@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Placer : MonoBehaviour {
 
+	private GameController gameController;
+	private Material material;
+	public GameObject basicTower;
+	public GameObject dynamiteTower;
+	private bool currentlyValid = false;
+
 	// The type of tower being placed. Null if no tower is being placed
 	private TowerType placing;
 	public TowerType Placing {
@@ -14,14 +20,34 @@ public class Placer : MonoBehaviour {
 		}
 	}
 
+	private GameObject towerPrefab() {
+		switch (placing) {
+		default:
+		case TowerType.BASIC:
+			return basicTower;
+		case TowerType.DYNAMITE:
+			return dynamiteTower;
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		Placing = TowerType.NONE;
+		gameController = GameObject.FindWithTag ("MainCamera").GetComponent<GameController>();
+		material = gameObject.GetComponent<Renderer> ().material;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		UpdateLocation ();
+		if (Input.GetMouseButtonDown(0) && placing != TowerType.NONE && currentlyValid)
+		{
+			
+			Instantiate(towerPrefab(), transform.position, Quaternion.identity);
+			gameController.money -= placing.Cost();
+			Placing = TowerType.NONE;
+
+		}
 	}
 
 	private void UpdateLocation() {
@@ -30,10 +56,18 @@ public class Placer : MonoBehaviour {
 		}
 			
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if(Physics.Raycast(ray, out hit))
+		RaycastHit groundHit = new RaycastHit ();
+		if(Physics.Raycast(ray, out groundHit, LayerData.GROUND_LAYER))
 		{
-			transform.position = new Vector3(hit.point.x, 3.0f, hit.point.z);
+			transform.position = new Vector3(groundHit.point.x, 0.0f, groundHit.point.z);
+		}
+
+		bool wasValid = currentlyValid;
+		GameObject prefab = towerPrefab ();
+		currentlyValid = !Physics.CheckSphere (transform.position, prefab.transform.localScale.x * 0.5f, LayerData.TOWER_PLACEMENT_MASK);
+
+		if (currentlyValid != wasValid) {
+			material.color = currentlyValid ? Color.white : Color.red;
 		}
 	}
 }

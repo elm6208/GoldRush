@@ -16,24 +16,20 @@ public class Tower : MonoBehaviour {
 	// tracks time between shots
 	private float fireCooldown = 0.0f;
 
-	private SphereCollider rangeCollider;
-
 	private List<GameObject> enemies;
 
 	// Use this for initialization
 	void Start () {
-		rangeCollider = GetComponent<SphereCollider> ();
-        rangeCollider.radius = range;
 		enemies = new List<GameObject> ();
 	}
 
-	void OnTriggerEnter(Collider other) {
+	public void RangeEntered(Collider other) {
 		if (other.gameObject.tag == "Enemy") {
 			enemies.Add (other.gameObject);
 		}
 	}
 		
-	void OnTriggerExit(Collider other) {
+	public void RangeExited(Collider other) {
 		// Destroy everything that leaves the trigger
 		enemies.Remove(other.gameObject);
 	}
