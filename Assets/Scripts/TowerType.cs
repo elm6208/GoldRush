@@ -15,9 +15,9 @@ public static class TowerTypeExtensions
 	{
 		switch (towerType) {
 		case TowerType.BASIC:
-			return 5;
+			return 1;
 		case TowerType.DYNAMITE:
-			return 8;
+			return 2;
 		case TowerType.TOWER3:
 			return 12;
 		case TowerType.TOWER4:

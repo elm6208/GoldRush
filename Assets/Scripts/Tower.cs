@@ -14,12 +14,12 @@ public class Tower : MonoBehaviour {
 	public float range = 4.0f;
 
 	// tracks time between shots
-	private float fireCooldown = 0.0f;
+	protected float fireCooldown = 0.0f;
 
-	private List<GameObject> enemies;
+	protected List<GameObject> enemies;
 
 	// Use this for initialization
-	void Start () {
+	protected void Start () {
 		enemies = new List<GameObject> ();
 	}
 
@@ -35,7 +35,7 @@ public class Tower : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
 		Enemy target = Aim ();
 
         if (target != null && fireCooldown <= 0) {
@@ -45,7 +45,7 @@ public class Tower : MonoBehaviour {
 		}
 	}
 		
-	Enemy Aim() {
+	protected Enemy Aim() {
         
 		Enemy target = null;
 		for(int i = 0; i < enemies.Count; i++) {
