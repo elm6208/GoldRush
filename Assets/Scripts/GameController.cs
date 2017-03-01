@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 	public int money;
 	public int lives;
 
+    private Tower selectedTower;
     public float spawnTimer;
     public int enemiesInWave;
     public int numWaves;
@@ -26,6 +27,8 @@ public class GameController : MonoBehaviour {
     private float playerShootTimer;
 
 	public GameObject placerPrefab;
+    public GameObject UICanvasPrefab;
+    private UIManager ui;
 	private Placer placer;
 
 	public int CurrentWave
@@ -44,6 +47,8 @@ public class GameController : MonoBehaviour {
         playerShootTimer = playerShootFrequency;
 
 		placer = Instantiate(placerPrefab, new Vector3(), Quaternion.identity).GetComponent<Placer> ();
+        ui = Instantiate(UICanvasPrefab, new Vector3(), Quaternion.identity).GetComponent<UIManager>();
+
 	}
 
     public void loseLife(){
@@ -67,6 +72,7 @@ public class GameController : MonoBehaviour {
             playerShootTimer -= Time.deltaTime;
         }
 
+        /*
         //attacking enemy
         if (Input.GetMouseButtonDown(0) && placer.Placing == TowerType.NONE && playerShootTimer <= 0.0f)
         {
@@ -85,11 +91,26 @@ public class GameController : MonoBehaviour {
                 }
                 
             }
-        }
+        }*/
 
         
+        if (Input.GetMouseButtonDown(0) && placer.Placing == TowerType.NONE)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(ray, out hit)){
+
+                if(hit.collider.gameObject.tag == "Tower"){
+                    GameObject thing = hit.collider.gameObject;
+                    ui.updateTowerDisplay(thing.GetComponent<Tower>());
+                }
+            }
+
+        }
+
+
         //do this until the last wave ends
-        if(waveCountdown > 0)
+        if (waveCountdown > 0)
         {
             //change timer
             timerCountdown -= Time.deltaTime;

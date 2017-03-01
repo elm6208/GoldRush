@@ -15,10 +15,12 @@ public class UIManager : MonoBehaviour {
 	GameObject promoteButton;
 	GameObject sellButton;
 	GameObject selectedUnitImg;
-	GameObject unitNameText;
-	GameObject fireRateText;
-	GameObject damageText;
-	GameObject rangeText;
+	Text unitNameText;
+    Text fireRateText;
+    Text damageText;
+    Text rangeText;
+
+    Tower DisplayedTower;
 
 	GameController gameController;
 
@@ -47,12 +49,12 @@ public class UIManager : MonoBehaviour {
 		tower3Button = transform.Find ("Tower3Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		tower4Button = transform.Find ("Tower4Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		selectedUnitImg = transform.Find ("SelectedUnitImg").gameObject;
-		unitNameText = transform.Find ("SelectedUnitImg").gameObject;
-		fireRateText = transform.Find ("FireRateText").gameObject;
-		damageText = transform.Find ("DamageText").gameObject;
-		rangeText = transform.Find ("RangeText").gameObject;
+		unitNameText = transform.Find ("SelectedUnitImg").GetComponent<Text>();
+        fireRateText = transform.Find ("FireRateText").GetComponent<Text>();
+        damageText = transform.Find ("DamageText").GetComponent<Text>();
+        rangeText = transform.Find ("RangeText").GetComponent<Text>();
 
-		gameController = GameObject.FindWithTag ("MainCamera").GetComponent<GameController>();
+        gameController = GameObject.FindWithTag ("MainCamera").GetComponent<GameController>();
 
 
 		tower1Button.onClick.AddListener(() => {
@@ -90,6 +92,19 @@ public class UIManager : MonoBehaviour {
 			tower4Button.colors = money >= TowerType.TOWER4.Cost() ? buttonColorEnabled : buttonColorDisabled;
 		}
 
-		prevMoney = money;
+
+
+        prevMoney = money;
 	}
+
+    public void updateTowerDisplay(Tower newTower){
+        DisplayedTower = newTower;
+
+        //selectedUnitImg = 
+        unitNameText.text = DisplayedTower.towerName;
+        fireRateText.text = "" + DisplayedTower.fireRate;
+        damageText.text = "" + DisplayedTower.damage;
+        rangeText.text = "" + DisplayedTower.range;
+
+    }
 }
