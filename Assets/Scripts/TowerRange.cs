@@ -10,7 +10,8 @@ public class TowerRange : MonoBehaviour {
 		tower = transform.parent.gameObject.GetComponent<Tower>();
 
 		SphereCollider rangeCollider = GetComponent<SphereCollider> ();
-		rangeCollider.radius = tower.range;
+		//rangeCollider.radius = tower.range;
+		transform.localScale = new Vector3(tower.range, 1.0f, tower.range);
 	}
 
 	void OnTriggerEnter(Collider other) {
