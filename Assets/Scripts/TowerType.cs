@@ -26,4 +26,21 @@ public static class TowerTypeExtensions
 			return 0;
 		}
 	}
+
+	public static int Range(this TowerType towerType)
+	{
+		switch (towerType) {
+		case TowerType.BASIC:
+			return 5;
+		case TowerType.DYNAMITE:
+			return 5;
+		case TowerType.TOWER3:
+			return 5;
+		case TowerType.TOWER4:
+			return 5;
+		default:
+			return 0;
+		}
+	}
+
 }

@@ -11,7 +11,7 @@ public class Tower : MonoBehaviour {
 	public int damage = 1;
 
 	// radius the tower can attack in
-	public float range = 4.0f;
+	public float range;
 
 	// tracks time between shots
 	protected float fireCooldown = 0.0f;
@@ -24,6 +24,7 @@ public class Tower : MonoBehaviour {
 	// Use this for initialization
 	protected void Start () {
 		value = GetType().Cost();
+		range = GetType().Range ();
         promoteCost = 3;
 		enemies = new List<GameObject> ();
 	}

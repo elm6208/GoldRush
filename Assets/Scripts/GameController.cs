@@ -97,6 +97,9 @@ public class GameController : MonoBehaviour {
 	public void SetPlacer(TowerType towerType) {
 		placer.Placing = towerType;
 	}
+	public TowerType GetPlacer() {
+		return placer.Placing;
+	}
 
     public void checkWin(){
         if(waveCountdown <= 0){
