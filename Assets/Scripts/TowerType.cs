@@ -5,7 +5,7 @@ public enum TowerType
 	NONE,
 	BASIC,
 	DYNAMITE,
-	TOWER3, // TODO: change to real name
+	SLOW, // TODO: change to real name
 	TOWER4, // TODO: change to real name
 }
 
@@ -18,7 +18,7 @@ public static class TowerTypeExtensions
 			return 5;
 		case TowerType.DYNAMITE:
 			return 10;
-		case TowerType.TOWER3:
+		case TowerType.SLOW:
 			return 12;
 		case TowerType.TOWER4:
 			return 15;
