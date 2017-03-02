@@ -119,6 +119,10 @@ public class UIManager : MonoBehaviour {
 	}
 
     public void updateTowerDisplay(Tower newTower){
+		if (DisplayedTower != null) {
+			DisplayedTower.onDeselect ();
+		}
+		newTower.onSelect ();
         DisplayedTower = newTower;
 
         //selectedUnitImg = 

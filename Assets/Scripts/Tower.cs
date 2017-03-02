@@ -23,12 +23,16 @@ public class Tower : MonoBehaviour {
 
     public string towerName;
 
+	public Material selectedMat;
+	private Material origMat;
+
 	// Use this for initialization
 	protected void Start () {
 		value = GetType().Cost();
 		range = GetType().Range ();
         promoteCost = 3;
 		enemies = new List<GameObject> ();
+		origMat = gameObject.GetComponent<Renderer> ().material;
 	}
 
 	public virtual TowerType GetType() {
@@ -104,4 +108,14 @@ public class Tower : MonoBehaviour {
         Destroy(this.gameObject);
         GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += value;
     }
+
+	public void onSelect()
+	{
+		gameObject.GetComponent<Renderer> ().material = selectedMat;
+	}
+
+	public void onDeselect()
+	{
+		gameObject.GetComponent<Renderer> ().material = origMat;
+	}
 }
