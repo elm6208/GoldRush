@@ -10,17 +10,18 @@ public class Enemy : MonoBehaviour {
 
 	public int value = 1;
     protected int damageTimer = 0;
+    
 
+    // Use this for initialization
+    void Start () {
 
-	// Use this for initialization
-	void Start () {
-        hp = 10;
+        
         maxSpeed = 0.1f;
         DistanceTravelled = 0;
         //move = new Vector3(maxSpeed, 0, 0);
 
-		
-	}
+        
+    }
 	
 	// Update is called once per frame
 	protected void Update () {

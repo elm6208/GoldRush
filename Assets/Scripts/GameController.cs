@@ -34,6 +34,8 @@ public class GameController : MonoBehaviour {
     private UIManager ui;
 	private Placer placer;
 
+    
+
 	public int CurrentWave
 	{
 		// not perfect, but we can change it when we add pauses
@@ -53,7 +55,9 @@ public class GameController : MonoBehaviour {
 		placer = Instantiate(placerPrefab, new Vector3(), Quaternion.identity).GetComponent<Placer> ();
         ui = Instantiate(UICanvasPrefab, new Vector3(), Quaternion.identity).GetComponent<UIManager>();
 
-	}
+        
+
+    }
 
     public void loseLife(){
         lives--;
@@ -131,7 +135,9 @@ public class GameController : MonoBehaviour {
                 if (timerCountdown <= 0f)
                 {
                     //spawn an enemy
-                    Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                    GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                    
+                    newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave/2);
 
                     //decrease enemy countdown
                     enemyCountdown--;
