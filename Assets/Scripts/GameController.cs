@@ -23,6 +23,9 @@ public class GameController : MonoBehaviour {
     private int enemyCountdown;
     private int waveCountdown;
 
+    //pause between waves
+    private bool wavePaused;
+
     // timer tracking how long it has been since the player shot
     private float playerShootTimer;
 
@@ -43,6 +46,7 @@ public class GameController : MonoBehaviour {
         timerCountdown = spawnTimer;
         enemyCountdown = enemiesInWave;
         waveCountdown = numWaves;
+        wavePaused = false;
 
         playerShootTimer = playerShootFrequency;
 
@@ -108,46 +112,57 @@ public class GameController : MonoBehaviour {
 
         }
 
-
-        //do this until the last wave ends
-        if (waveCountdown > 0)
+        if(wavePaused == true)
         {
-            //change timer
-            timerCountdown -= Time.deltaTime;
-
-            //if timer reaches zero
-            if (timerCountdown <= 0f)
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                //spawn an enemy
-                Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
-
-                //decrease enemy countdown
-                enemyCountdown--;
-
-                //if this is the end of the wave
-                if (enemyCountdown <= 0)
-                {
-                    //increase enemies in wave by 2
-                    enemiesInWave += 2;
-                    //reset enemy countdown
-                    enemyCountdown = enemiesInWave;
-                    //set longer timer for in between waves
-                    timerCountdown = 5;
-
-                    //decrease wave countdown
-                    waveCountdown--;
-
-                }
-                //if this is not the end of the wave
-                else
-                {
-                    //reset timer
-                    timerCountdown = spawnTimer;
-                }
-
+                wavePaused = false;
             }
         }
-        
+        else
+        {
+            //do this until the last wave ends
+            if (waveCountdown > 0)
+            {
+                //change timer
+                timerCountdown -= Time.deltaTime;
+
+                //if timer reaches zero
+                if (timerCountdown <= 0f)
+                {
+                    //spawn an enemy
+                    Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+
+                    //decrease enemy countdown
+                    enemyCountdown--;
+
+                    //if this is the end of the wave
+                    if (enemyCountdown <= 0)
+                    {
+                        //increase enemies in wave by 2
+                        enemiesInWave += 2;
+                        //reset enemy countdown
+                        enemyCountdown = enemiesInWave;
+                        //set longer timer for in between waves
+                        timerCountdown = 5;
+
+                        //decrease wave countdown
+                        waveCountdown--;
+
+                        //pause wave
+                        wavePaused = true;
+                    }
+                    //if this is not the end of the wave
+                    else
+                    {
+                        //reset timer
+                        timerCountdown = spawnTimer;
+                    }
+
+                }
+            }
+        }
+
 	}
 		
 	public void SetPlacer(TowerType towerType) {
