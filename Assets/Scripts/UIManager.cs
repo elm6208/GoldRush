@@ -12,13 +12,15 @@ public class UIManager : MonoBehaviour {
 	UnityEngine.UI.Button tower2Button;
 	UnityEngine.UI.Button tower3Button;
 	UnityEngine.UI.Button tower4Button;
-	GameObject promoteButton;
-	GameObject sellButton;
+	UnityEngine.UI.Button promoteButton;
+	UnityEngine.UI.Button sellButton;
 	GameObject selectedUnitImg;
-	GameObject unitNameText;
-	GameObject fireRateText;
-	GameObject damageText;
-	GameObject rangeText;
+	Text unitNameText;
+    Text fireRateText;
+    Text damageText;
+    Text rangeText;
+
+    Tower DisplayedTower;
 
 	GameController gameController;
 
@@ -47,12 +49,14 @@ public class UIManager : MonoBehaviour {
 		tower3Button = transform.Find ("Tower3Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		tower4Button = transform.Find ("Tower4Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		selectedUnitImg = transform.Find ("SelectedUnitImg").gameObject;
-		unitNameText = transform.Find ("SelectedUnitImg").gameObject;
-		fireRateText = transform.Find ("FireRateText").gameObject;
-		damageText = transform.Find ("DamageText").gameObject;
-		rangeText = transform.Find ("RangeText").gameObject;
+		unitNameText = transform.Find ("UnitNameText").GetComponent<Text>();
+        fireRateText = transform.Find ("FireRateText").GetComponent<Text>();
+        damageText = transform.Find ("DamageText").GetComponent<Text>();
+        rangeText = transform.Find ("RangeText").GetComponent<Text>();
+        promoteButton = transform.Find("PromoteButton").gameObject.GetComponent<UnityEngine.UI.Button>();
+        sellButton = transform.Find("SellButton").gameObject.GetComponent<UnityEngine.UI.Button>();
 
-		gameController = GameObject.FindWithTag ("MainCamera").GetComponent<GameController>();
+        gameController = GameObject.FindWithTag ("MainCamera").GetComponent<GameController>();
 
 
 		tower1Button.onClick.AddListener(() => {
@@ -67,13 +71,28 @@ public class UIManager : MonoBehaviour {
 		tower4Button.onClick.AddListener(() => {
 			SelectTower(TowerType.TOWER4);
 		});
-	}
+
+        promoteButton.onClick.AddListener(() => {
+            upgradeTower();
+        });
+        sellButton.onClick.AddListener(() => {
+           sellTower();
+        });
+    }
 
 	private void SelectTower(TowerType towerType) {
 		if (gameController.money >= towerType.Cost()) {
 			gameController.SetPlacer (towerType);
 		}
 	}
+
+    private void upgradeTower(){
+        DisplayedTower.Promote();
+    }
+
+    private void sellTower(){
+        DisplayedTower.Sell();
+    }
 
 	
 	// Update is called once per frame
@@ -90,6 +109,19 @@ public class UIManager : MonoBehaviour {
 			tower4Button.colors = money >= TowerType.TOWER4.Cost() ? buttonColorEnabled : buttonColorDisabled;
 		}
 
-		prevMoney = money;
+
+
+        prevMoney = money;
 	}
+
+    public void updateTowerDisplay(Tower newTower){
+        DisplayedTower = newTower;
+
+        //selectedUnitImg = 
+        unitNameText.text = "Name:" + DisplayedTower.towerName;
+        fireRateText.text = "Fire Rate: " + DisplayedTower.fireRate;
+        damageText.text = "Damage: " + DisplayedTower.damage;
+        rangeText.text = "Range: " + DisplayedTower.range;
+
+    }
 }
