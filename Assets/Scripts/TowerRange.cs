@@ -20,7 +20,7 @@ public class TowerRange : MonoBehaviour {
 	}
 
 	protected void Update () {
-		r.enabled = gameController.GetPlacer () != TowerType.NONE;
+		r.enabled = gameController.ShouldShowRange (tower);
 	}
 
 	void OnTriggerEnter(Collider other) {

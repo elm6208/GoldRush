@@ -21,6 +21,8 @@ public class Tower : MonoBehaviour {
     public int value;
     public int promoteCost;
 
+    public string towerName;
+
 	// Use this for initialization
 	protected void Start () {
 		value = GetType().Cost();
@@ -88,7 +90,7 @@ public class Tower : MonoBehaviour {
 		target.takeDamage (damage, false);
 	}
 
-    void Promote()
+    public void Promote()
     {
         fireRate -= 0.25f;
         range += 1;
@@ -97,7 +99,7 @@ public class Tower : MonoBehaviour {
 
     }
 
-    void Settle()
+    public void Sell()
     {
         Destroy(this.gameObject);
         GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += value;
