@@ -34,7 +34,7 @@ public static class TowerTypeExtensions
 			return 5;
 		case TowerType.DYNAMITE:
 			return 5;
-		case TowerType.TOWER3:
+		case TowerType.SLOW:
 			return 5;
 		case TowerType.TOWER4:
 			return 5;

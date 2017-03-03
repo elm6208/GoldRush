@@ -72,7 +72,7 @@ public class Dynamite : Vehicle {
 
     void Explode()
     {
-        print("Exploding");
+        //print("Exploding");
         explosionCollider.radius = range * 2;
          foreach(GameObject e in enemies)
         {

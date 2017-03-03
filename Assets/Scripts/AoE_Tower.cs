@@ -25,7 +25,7 @@ public class AoE_Tower : Tower {
 
     void Aoe_Attack(Enemy target)
     {
-        print("Lobbing bomb");
+        //print("Lobbing bomb");
         fireCooldown = fireRate;
         Dynamite atkr = (Dynamite)Instantiate(dynamitePrefab, transform.position, transform.rotation);
         atkr.SetTarget(target);
