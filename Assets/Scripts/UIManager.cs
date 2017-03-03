@@ -66,7 +66,7 @@ public class UIManager : MonoBehaviour {
 			SelectTower(TowerType.DYNAMITE);
 		});
 		tower3Button.onClick.AddListener(() => {
-			SelectTower(TowerType.TOWER3);
+			SelectTower(TowerType.SLOW);
 		});
 		tower4Button.onClick.AddListener(() => {
 			SelectTower(TowerType.TOWER4);
@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviour {
 			moneyText.text = "ca$h money: " + money;
 			tower1Button.colors = money >= TowerType.BASIC.Cost() ? buttonColorEnabled : buttonColorDisabled;
 			tower2Button.colors = money >= TowerType.DYNAMITE.Cost() ? buttonColorEnabled : buttonColorDisabled;
-			tower3Button.colors = money >= TowerType.TOWER3.Cost() ? buttonColorEnabled : buttonColorDisabled;
+			tower3Button.colors = money >= TowerType.SLOW.Cost() ? buttonColorEnabled : buttonColorDisabled;
 			tower4Button.colors = money >= TowerType.TOWER4.Cost() ? buttonColorEnabled : buttonColorDisabled;
 		}
 

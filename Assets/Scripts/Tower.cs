@@ -34,13 +34,13 @@ public class Tower : MonoBehaviour {
 		return TowerType.BASIC;
 	}
 
-	public void RangeEntered(Collider other) {
+	public virtual void RangeEntered(Collider other) {
 		if (other.gameObject.tag == "Enemy") {
 			enemies.Add (other.gameObject);
 		}
 	}
 		
-	public void RangeExited(Collider other) {
+	public virtual void RangeExited(Collider other) {
 		// Destroy everything that leaves the trigger
 		enemies.Remove(other.gameObject);
 	}
