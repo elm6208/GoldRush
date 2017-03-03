@@ -9,6 +9,7 @@ public class Slowdown_Tower : Tower {
 	
 	// Update is called once per frame
 	void Update () {
+        Aim();
         foreach(GameObject e in enemies)
         {
             if(e.GetComponent<Car>().slowFactor > this.slowFactor)

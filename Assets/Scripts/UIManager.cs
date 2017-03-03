@@ -91,11 +91,20 @@ public class UIManager : MonoBehaviour {
 	}
 
     private void upgradeTower(){
-        DisplayedTower.Promote();
+        if (DisplayedTower != null && gameController.money >= DisplayedTower.promoteCost)
+        {
+            gameController.money -= DisplayedTower.promoteCost;
+            DisplayedTower.Promote();
+        }
+            
     }
 
     private void sellTower(){
-        DisplayedTower.Sell();
+        if(DisplayedTower != null)
+        {
+            DisplayedTower.Sell();
+        }
+        
     }
 
 	

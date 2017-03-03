@@ -96,8 +96,8 @@ public class Tower : MonoBehaviour {
 
     public void Promote()
     {
-        fireRate -= 0.25f;
-        range += 1;
+        fireRate -= 0.05f;
+        range += 0.5f;
         value += promoteCost;
         promoteCost += 3;
 
