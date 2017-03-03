@@ -9,6 +9,7 @@ public class Placer : MonoBehaviour {
 	public GameObject basicTower;
 	public GameObject dynamiteTower;
 	private bool currentlyValid = false;
+	public GameObject placerRange;
 
 	// The type of tower being placed. Null if no tower is being placed
 	private TowerType placing;
@@ -17,6 +18,7 @@ public class Placer : MonoBehaviour {
 		set {
 			placing = value;
 			this.gameObject.SetActive (placing != TowerType.NONE);
+			placerRange.transform.localScale = new Vector3(placing.Range(), 1.0f, placing.Range());
 		}
 	}
 

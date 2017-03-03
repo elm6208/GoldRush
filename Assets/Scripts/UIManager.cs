@@ -22,6 +22,10 @@ public class UIManager : MonoBehaviour {
 
     Tower DisplayedTower;
 
+	public Tower GetDisplayTower() {
+		return DisplayedTower;
+	}
+
 	GameController gameController;
 
 	ColorBlock buttonColorEnabled;
@@ -115,6 +119,10 @@ public class UIManager : MonoBehaviour {
 	}
 
     public void updateTowerDisplay(Tower newTower){
+		if (DisplayedTower != null) {
+			DisplayedTower.onDeselect ();
+		}
+		newTower.onSelect ();
         DisplayedTower = newTower;
 
         //selectedUnitImg = 

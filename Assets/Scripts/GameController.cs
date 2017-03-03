@@ -107,7 +107,6 @@ public class GameController : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit)){
-
                 if(hit.collider.gameObject.tag == "Tower"){
                     GameObject thing = hit.collider.gameObject;
                     ui.updateTowerDisplay(thing.GetComponent<Tower>());
@@ -173,6 +172,9 @@ public class GameController : MonoBehaviour {
 		
 	public void SetPlacer(TowerType towerType) {
 		placer.Placing = towerType;
+	}
+	public bool ShouldShowRange(Tower tower) {
+		return placer.Placing != TowerType.NONE || ui.GetDisplayTower () == tower;
 	}
 
     public void checkWin(){
