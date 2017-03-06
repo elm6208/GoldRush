@@ -172,11 +172,11 @@ public class UIManager : MonoBehaviour {
 			float rangeDelta = DisplayedTower.GetTowerType().PromoteRangeChange();
 
 			string rangeChangeText =
-				rangeDelta == 0 ? null : $"Range { rangeDelta > 0 ? "+" : null}{rangeDelta} \n";
+				rangeDelta == 0 ? null : $"Range { rangeDelta > 0 ? "+" : null}{rangeDelta}\n";
 
 			float fireRateDelta = DisplayedTower.GetTowerType().PromoteFirerateChange();
 			string fireRateChangeText =
-				fireRateDelta == 0 ? null : $"Fire Rate { fireRateDelta > 0 ? "+" : null}{fireRateDelta} \n";
+				fireRateDelta == 0 ? null : $"Fire Rate { fireRateDelta > 0 ? "+" : null}{fireRateDelta}/s\n";
 
 			promoteHoverText.text = costText + rangeChangeText + fireRateChangeText;
 
