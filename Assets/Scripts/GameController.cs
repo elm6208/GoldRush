@@ -195,7 +195,6 @@ public class GameController : MonoBehaviour {
     }
 
 	private void CheckWaveEnded() {
-		print("check wave end: " + wavePaused + " | " + enemies.Count);
 			if (wavePaused && enemies.Count == 0) {
 				onWaveEnd();
 			}
