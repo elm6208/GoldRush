@@ -18,6 +18,7 @@ abstract public class Vehicle : MonoBehaviour
     //fields necessry for movement
     protected Vector3 acceleration;
     protected Vector3 velocity;
+
     public Vector3 Velocity
     {
         get { return velocity; }
@@ -26,6 +27,7 @@ abstract public class Vehicle : MonoBehaviour
     protected Vector3 steer;
 
     //fields 
+    public float slowFactor = 1.0f;
     public float maxSpeed = 10.0f;
     public float maxForce = 12.0f;
     public float sepWeight = 30f; // weight of separation
@@ -51,12 +53,13 @@ abstract public class Vehicle : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
+        
         CalcSteeringForces();
 
         //"movement formula"
         velocity += acceleration * Time.deltaTime;
         velocity.y = 0;
-        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+        velocity = Vector3.ClampMagnitude(velocity, maxSpeed*slowFactor);
         transform.forward = velocity.normalized;
         //if(velocity != Vector3.zero){
         //transform.forward = velocity.normalized;

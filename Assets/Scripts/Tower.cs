@@ -39,13 +39,13 @@ public class Tower : MonoBehaviour {
 		return TowerType.BASIC;
 	}
 
-	public void RangeEntered(Collider other) {
+	public virtual void RangeEntered(Collider other) {
 		if (other.gameObject.tag == "Enemy") {
 			enemies.Add (other.gameObject);
 		}
 	}
 
-	public void RangeExited(Collider other) {
+	public virtual void RangeExited(Collider other) {
 		// Destroy everything that leaves the trigger
 		enemies.Remove(other.gameObject);
 	}
@@ -96,11 +96,10 @@ public class Tower : MonoBehaviour {
 
   public void Promote()
   {
-      fireRate += GetTowerType().PromoteFirerateChange();
-      range += GetTowerType().PromoteRangeChange();
+      fireRate -= 0.05f;
+      range += 0.5f;
       value += promoteCost;
       promoteCost += 3;
-
   }
 
   public void Sell()

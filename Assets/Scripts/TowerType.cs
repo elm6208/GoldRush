@@ -5,7 +5,7 @@ public enum TowerType
 	NONE,
 	BASIC,
 	DYNAMITE,
-	TOWER3, // TODO: change to real name
+	SLOW,
 	TOWER4, // TODO: change to real name
 }
 
@@ -18,7 +18,7 @@ public static class TowerTypeExtensions
 			return 5;
 		case TowerType.DYNAMITE:
 			return 10;
-		case TowerType.TOWER3:
+		case TowerType.SLOW:
 			return 12;
 		case TowerType.TOWER4:
 			return 15;
@@ -34,7 +34,7 @@ public static class TowerTypeExtensions
 			return 5;
 		case TowerType.DYNAMITE:
 			return 5;
-		case TowerType.TOWER3:
+		case TowerType.SLOW:
 			return 5;
 		case TowerType.TOWER4:
 			return 5;
@@ -47,12 +47,12 @@ public static class TowerTypeExtensions
 	// the 'rank' of the tower in too
   public static float PromoteFirerateChange(this TowerType towerType)
   {
-		return -0.25f;
+		return -0.05f;
   }
 
 	public static float PromoteRangeChange(this TowerType towerType)
   {
-		return 1;
+		return 0.5f;
 	}
 
 }

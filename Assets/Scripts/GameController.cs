@@ -16,23 +16,25 @@ public class GameController : MonoBehaviour {
     public float spawnY;
     public float spawnZ;
     //how often the player can shoot
-    public float playerShootFrequency;
-    public int clickDamage;
+    //public float playerShootFrequency;
+    //public int clickDamage;
 
     private float timerCountdown;
-    private int enemyCountdown;
+    public int enemyCountdown;
     private int waveCountdown;
 
     //pause between waves
     private bool wavePaused;
 
     // timer tracking how long it has been since the player shot
-    private float playerShootTimer;
+    //private float playerShootTimer;
 
 	public GameObject placerPrefab;
     public GameObject UICanvasPrefab;
     private UIManager ui;
 	private Placer placer;
+
+	protected List<Enemy> enemies;
 
 	public int CurrentWave
 	{
@@ -43,17 +45,27 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		enemies = new List<Enemy>();
         timerCountdown = spawnTimer;
         enemyCountdown = enemiesInWave;
         waveCountdown = numWaves;
         wavePaused = false;
 
-        playerShootTimer = playerShootFrequency;
+       // playerShootTimer = playerShootFrequency;
 
 		placer = Instantiate(placerPrefab, new Vector3(), Quaternion.identity).GetComponent<Placer> ();
         ui = Instantiate(UICanvasPrefab, new Vector3(), Quaternion.identity).GetComponent<UIManager>();
 
-	}
+
+
+    }
+
+		public void onEnemyBreach(Enemy enemy) {
+			enemies.Remove(enemy);
+			loseLife();
+			CheckWaveEnded();
+		}
 
     public void loseLife(){
         lives--;
@@ -61,7 +73,7 @@ public class GameController : MonoBehaviour {
             Application.LoadLevel("Lose");
         }
     }
-	
+
 	// Update is called once per frame
 	void Update () {
         checkWin();
@@ -71,12 +83,13 @@ public class GameController : MonoBehaviour {
 		}
 
         //decrease player shoot timer
+        /*
         if(playerShootTimer > 0.0f)
         {
             playerShootTimer -= Time.deltaTime;
         }
 
-        /*
+
         //attacking enemy
         if (Input.GetMouseButtonDown(0) && placer.Placing == TowerType.NONE && playerShootTimer <= 0.0f)
         {
@@ -93,11 +106,11 @@ public class GameController : MonoBehaviour {
                     playerShootTimer = playerShootFrequency;
 
                 }
-                
+
             }
         }*/
 
-        
+
         if (Input.GetMouseButtonDown(0) && placer.Placing == TowerType.NONE)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -105,21 +118,13 @@ public class GameController : MonoBehaviour {
             if (Physics.Raycast(ray, out hit)){
                 if(hit.collider.gameObject.tag == "Tower"){
                     GameObject thing = hit.collider.gameObject;
-                    ui.updateTowerDisplay(thing.GetComponent<Tower>());
+                    ui.SetDisplayTower(thing.GetComponent<Tower>());
                 }
             }
 
         }
 
-        if(wavePaused == true)
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                wavePaused = false;
-            }
-        }
-        else
-        {
+        if (!wavePaused){
             //do this until the last wave ends
             if (waveCountdown > 0)
             {
@@ -129,8 +134,12 @@ public class GameController : MonoBehaviour {
                 //if timer reaches zero
                 if (timerCountdown <= 0f)
                 {
+										print("spawn " + enemyCountdown + " | " + enemiesInWave);
                     //spawn an enemy
-                    Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                    GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+										enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                    newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave/2);
 
                     //decrease enemy countdown
                     enemyCountdown--;
@@ -138,18 +147,23 @@ public class GameController : MonoBehaviour {
                     //if this is the end of the wave
                     if (enemyCountdown <= 0)
                     {
-                        //increase enemies in wave by 2
-                        enemiesInWave += 2;
-                        //reset enemy countdown
-                        enemyCountdown = enemiesInWave;
-                        //set longer timer for in between waves
-                        timerCountdown = 5;
+											//increase enemies in wave by 2
+											enemiesInWave += 2;
+											//reset enemy countdown if not final wave
+											if(waveCountdown > 1){
+													enemyCountdown = enemiesInWave;
+											}
 
-                        //decrease wave countdown
-                        waveCountdown--;
+											//set longer timer for in between waves
+											timerCountdown = 5;
 
-                        //pause wave
-                        wavePaused = true;
+											//decrease wave countdown
+											waveCountdown--;
+
+											//pause wave
+											wavePaused = true;
+
+											CheckWaveEnded();
                     }
                     //if this is not the end of the wave
                     else
@@ -163,7 +177,7 @@ public class GameController : MonoBehaviour {
         }
 
 	}
-		
+
 	public void SetPlacer(TowerType towerType) {
 		placer.Placing = towerType;
 	}
@@ -172,12 +186,35 @@ public class GameController : MonoBehaviour {
 	}
 
     public void checkWin(){
-        if(waveCountdown <= 0){
+        if(waveCountdown <= 0 && enemyCountdown <= 0){
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             if (enemies.Length == 0){
                 Application.LoadLevel("Win");
-            }      
+            }
         }
     }
+
+	private void CheckWaveEnded() {
+		print("check wave end: " + wavePaused + " | " + enemies.Count);
+			if (wavePaused && enemies.Count == 0) {
+				onWaveEnd();
+			}
+	}
+
+	private void onWaveEnd() {
+		ui.SetNextWaveButtonActive(true);
+	}
+
+	public void onEnemyDeath(Enemy enemy) {
+		enemies.Remove(enemy);
+		money += enemy.value;
+		CheckWaveEnded();
+	}
+
+	public void StartWave() {
+		wavePaused = false;
+		timerCountdown = 0;
+		ui.SetNextWaveButtonActive(false);
+	}
 
 }
