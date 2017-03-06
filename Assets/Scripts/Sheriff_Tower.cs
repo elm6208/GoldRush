@@ -10,11 +10,14 @@ public class Sheriff_Tower : Tower {
 
 	// Use this for initialization
 	void Start () {
+        enemies = new List<GameObject>();
+        allies = new List<GameObject>();
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	 void  Update () {
+        Aim();
         SheriffAim();
 		
 	}
@@ -29,8 +32,9 @@ public class Sheriff_Tower : Tower {
 
     public override void RangeExited(Collider other)
     {
-        removeBoost(other.gameObject.GetComponent<Tower>());
-        allies.Remove(other.gameObject);
+        if (other.gameObject.tag == "Tower"){
+            removeBoost(other.gameObject.GetComponent<Tower>());
+        }
     }
 
     //used instead of generic Tower aim
@@ -53,5 +57,6 @@ public class Sheriff_Tower : Tower {
     protected void removeBoost(Tower tower){
         tower.range -= rangeBoost;
         tower.fireRate -= fireRateBoost;
+        allies.Remove(tower.gameObject);
     }
 }
