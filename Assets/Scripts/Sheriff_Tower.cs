@@ -46,17 +46,26 @@ public class Sheriff_Tower : Tower {
                 i--;
                 continue;
             }
+
         }
+
     }
 
     protected void Boost(Tower tower){
         tower.range += rangeBoost;
-        tower.fireRate += fireRateBoost;
+        tower.fireRate -= fireRateBoost;
     }
 
     protected void removeBoost(Tower tower){
         tower.range -= rangeBoost;
         tower.fireRate -= fireRateBoost;
         allies.Remove(tower.gameObject);
+    }
+
+    public void RangeStay(Collider other){
+        /*
+        if (other.gameObject.tag == "Tower"){
+            allies.Add(other.gameObject);
+        }*/
     }
 }

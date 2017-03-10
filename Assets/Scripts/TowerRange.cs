@@ -9,7 +9,7 @@ public class TowerRange : MonoBehaviour {
 	protected GameController gameController;
 	protected Renderer r;
 
-	void Start() {
+	protected void Start() {
 		tower = transform.parent.gameObject.GetComponent<Tower>();
 
 		SphereCollider rangeCollider = GetComponent<SphereCollider> ();
@@ -23,11 +23,11 @@ public class TowerRange : MonoBehaviour {
 		r.enabled = gameController.ShouldShowRange (tower);
 	}
 
-	void OnTriggerEnter(Collider other) {
+	protected void OnTriggerEnter(Collider other) {
 		tower.RangeEntered (other);
 	}
 
-	void OnTriggerExit(Collider other) {
+	protected void OnTriggerExit(Collider other) {
 		tower.RangeExited (other);
 	}
 }
