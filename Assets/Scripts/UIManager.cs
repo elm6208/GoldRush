@@ -14,13 +14,17 @@ public class UIManager : MonoBehaviour {
 	UnityEngine.UI.Button tower4Button;
 	UnityEngine.UI.Button promoteButton;
 	UnityEngine.UI.Button sellButton;
+	UnityEngine.UI.Button nextWaveButton;
 	GameObject selectedUnitImg;
 	Text unitNameText;
-    Text fireRateText;
-    Text damageText;
-    Text rangeText;
+  Text fireRateText;
+  Text damageText;
+  Text rangeText;
 
-    Tower DisplayedTower;
+  Text promoteHoverText;
+	Text sellHoverText;
+
+  Tower DisplayedTower;
 
 	public Tower GetDisplayTower() {
 		return DisplayedTower;
@@ -52,16 +56,19 @@ public class UIManager : MonoBehaviour {
 		tower2Button = transform.Find ("Tower2Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		tower3Button = transform.Find ("Tower3Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		tower4Button = transform.Find ("Tower4Button").gameObject.GetComponent<UnityEngine.UI.Button>();
+		nextWaveButton = transform.Find("NextWaveButton").gameObject.GetComponent<UnityEngine.UI.Button>();
 		selectedUnitImg = transform.Find ("SelectedUnitImg").gameObject;
 		unitNameText = transform.Find ("UnitNameText").GetComponent<Text>();
-        fireRateText = transform.Find ("FireRateText").GetComponent<Text>();
-        damageText = transform.Find ("DamageText").GetComponent<Text>();
-        rangeText = transform.Find ("RangeText").GetComponent<Text>();
-        promoteButton = transform.Find("PromoteButton").gameObject.GetComponent<UnityEngine.UI.Button>();
-        sellButton = transform.Find("SellButton").gameObject.GetComponent<UnityEngine.UI.Button>();
+    fireRateText = transform.Find ("FireRateText").GetComponent<Text>();
+    damageText = transform.Find ("DamageText").GetComponent<Text>();
+    rangeText = transform.Find ("RangeText").GetComponent<Text>();
+  	promoteButton = transform.Find("PromoteButton").gameObject.GetComponent<UnityEngine.UI.Button>();
+    sellButton = transform.Find("SellButton").gameObject.GetComponent<UnityEngine.UI.Button>();
 
-        gameController = GameObject.FindWithTag ("MainCamera").GetComponent<GameController>();
+    promoteHoverText = transform.Find("PromoteHoverText").gameObject.GetComponent<Text>();
+		sellHoverText = transform.Find("SellHoverText").gameObject.GetComponent<Text>();
 
+    gameController = GameObject.FindWithTag ("MainCamera").GetComponent<GameController>();
 
 		tower1Button.onClick.AddListener(() => {
 			SelectTower(TowerType.BASIC);
@@ -81,13 +88,19 @@ public class UIManager : MonoBehaviour {
 			SelectTower(TowerType.TOWER4);
 		});
 
-        promoteButton.onClick.AddListener(() => {
-            upgradeTower();
-        });
-        sellButton.onClick.AddListener(() => {
-           sellTower();
-        });
-    }
+    promoteButton.onClick.AddListener(() => {
+        upgradeTower();
+    });
+    sellButton.onClick.AddListener(() => {
+       sellTower();
+    });
+
+		nextWaveButton.onClick.AddListener(() => {
+			gameController.StartWave();
+		});
+
+		RefreshTowerDisplay();
+  }
 
 	private void SelectTower(TowerType towerType) {
 		if (gameController.money >= towerType.Cost()) {
@@ -95,24 +108,26 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-    private void upgradeTower(){
-        if (DisplayedTower != null && gameController.money >= DisplayedTower.promoteCost)
-        {
-            gameController.money -= DisplayedTower.promoteCost;
-            DisplayedTower.Promote();
-        }
-            
-    }
+  private void upgradeTower() {
+      if (DisplayedTower != null && gameController.money >= DisplayedTower.promoteCost)
+      {
+          gameController.money -= DisplayedTower.promoteCost;
+          DisplayedTower.Promote();
+					RefreshTowerDisplay();
+      }
 
-    private void sellTower(){
-        if(DisplayedTower != null)
-        {
-            DisplayedTower.Sell();
-        }
-        
-    }
+  }
 
-	
+  private void sellTower() {
+      if(DisplayedTower != null)
+      {
+          DisplayedTower.Sell();
+					DisplayedTower = null;
+					RefreshTowerDisplay();
+      }
+
+  }
+
 	// Update is called once per frame
 	void Update () {
 		livesText.text = "lives: " + gameController.lives;
@@ -127,23 +142,55 @@ public class UIManager : MonoBehaviour {
 			tower4Button.colors = money >= TowerType.TOWER4.Cost() ? buttonColorEnabled : buttonColorDisabled;
 		}
 
-
-
-        prevMoney = money;
+    prevMoney = money;
 	}
 
-    public void updateTowerDisplay(Tower newTower){
+  public void SetDisplayTower(Tower newTower){
 		if (DisplayedTower != null) {
 			DisplayedTower.onDeselect ();
-		}
-		newTower.onSelect ();
-        DisplayedTower = newTower;
-
-        //selectedUnitImg = 
-        unitNameText.text = "Name:" + DisplayedTower.towerName;
-        fireRateText.text = "Fire Rate: " + DisplayedTower.fireRate;
-        damageText.text = "Damage: " + DisplayedTower.damage;
-        rangeText.text = "Range: " + DisplayedTower.range;
-
     }
+
+		newTower.onSelect ();
+    DisplayedTower = newTower;
+
+		RefreshTowerDisplay();
+
+  }
+
+	private void RefreshTowerDisplay() {
+		if (DisplayedTower == null) {
+			unitNameText.text = null;
+			fireRateText.text = null;
+			damageText.text = null;
+			rangeText.text = null;
+
+			promoteHoverText.text = null;
+			sellHoverText.text = null;
+		} else {
+			unitNameText.text = "Name:" + DisplayedTower.towerName;
+			fireRateText.text = "Fire Rate: " + DisplayedTower.fireRate;
+			damageText.text = "Damage: " + DisplayedTower.damage;
+			rangeText.text = "Range: " + DisplayedTower.range;
+
+			string costText = $"Cost: ${DisplayedTower.promoteCost} \n";
+
+			float rangeDelta = DisplayedTower.GetTowerType().PromoteRangeChange();
+
+			string rangeChangeText =
+				rangeDelta == 0 ? null : $"Range { rangeDelta > 0 ? "+" : null}{rangeDelta}\n";
+
+			float fireRateDelta = DisplayedTower.GetTowerType().PromoteFirerateChange();
+			string fireRateChangeText =
+				fireRateDelta == 0 ? null : $"Fire Rate { fireRateDelta > 0 ? "+" : null}{fireRateDelta}/s\n";
+
+			promoteHoverText.text = costText + rangeChangeText + fireRateChangeText;
+
+			sellHoverText.text = $"Sell tower for ${DisplayedTower.value}";
+
+		}
+	}
+
+	public void SetNextWaveButtonActive(bool active) {
+		nextWaveButton.gameObject.SetActive(active);
+	}
 }

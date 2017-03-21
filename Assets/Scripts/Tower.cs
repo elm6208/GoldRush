@@ -18,24 +18,24 @@ public class Tower : MonoBehaviour {
 
 	protected List<GameObject> enemies;
 
-    public int value;
-    public int promoteCost;
+  public int value;
+  public int promoteCost;
 
-    public string towerName;
+  public string towerName;
 
 	public Material selectedMat;
 	private Material origMat;
 
 	// Use this for initialization
 	protected void Start () {
-		value = GetType().Cost();
-		range = GetType().Range ();
-        promoteCost = 3;
+		value = GetTowerType().Cost();
+		range = GetTowerType().Range();
+    promoteCost = 3;
 		enemies = new List<GameObject> ();
 		origMat = gameObject.GetComponent<Renderer> ().material;
 	}
 
-	public virtual TowerType GetType() {
+	public virtual TowerType GetTowerType() {
 		return TowerType.BASIC;
 	}
 
@@ -44,28 +44,28 @@ public class Tower : MonoBehaviour {
 			enemies.Add (other.gameObject);
 		}
 	}
-		
+
 	public virtual void RangeExited(Collider other) {
 		// Destroy everything that leaves the trigger
 		enemies.Remove(other.gameObject);
 	}
-	
+
 	// Update is called once per frame
 	protected void Update () {
 		Enemy target = Aim ();
 
-        if (target != null && fireCooldown <= 0) {
+    if (target != null && fireCooldown <= 0) {
 			Attack (target);
 		} else {
 			fireCooldown -= Time.deltaTime;
 		}
 	}
-		
+
 	protected Enemy Aim() {
-        
+
 		Enemy target = null;
 		for(int i = 0; i < enemies.Count; i++) {
-            
+
 			// check if enemy has been killed
 			if (enemies[i] == null) {
 				enemies.RemoveAt (i);
@@ -90,24 +90,23 @@ public class Tower : MonoBehaviour {
 
 	void Attack(Enemy target) {
 		fireCooldown = fireRate;
-        //attack is not piercing so bool is false
+    //attack is not piercing so bool is false
 		target.takeDamage (damage, false);
 	}
 
-    public void Promote()
-    {
-        fireRate -= 0.05f;
-        range += 0.5f;
-        value += promoteCost;
-        promoteCost += 3;
+  public void Promote()
+  {
+      fireRate -= 0.05f;
+      range += 0.5f;
+      value += promoteCost;
+      promoteCost += 3;
+  }
 
-    }
-
-    public virtual void Sell()
-    {
-        Destroy(this.gameObject);
-        GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += value;
-    }
+  public virtual void Sell()
+  {
+      Destroy(this.gameObject);
+      GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += value;
+  }
 
 	public void onSelect()
 	{
