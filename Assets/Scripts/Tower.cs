@@ -103,7 +103,7 @@ public class Tower : MonoBehaviour {
 
     }
 
-    public void Sell()
+    public virtual void Sell()
     {
         Destroy(this.gameObject);
         GameObject.FindWithTag("MainCamera").GetComponent<GameController>().money += value;

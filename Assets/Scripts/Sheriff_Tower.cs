@@ -51,6 +51,20 @@ public class Sheriff_Tower : Tower {
 
     }
 
+    public override void Sell()
+    {
+        for (int i = 0; i < allies.Count; i++)
+        {
+            if (allies[i] != null)
+            {
+                removeBoost(allies[i].GetComponent<Tower>());
+                i--;
+            } 
+        }
+
+        Destroy(this.gameObject);
+     }
+
     protected void Boost(Tower tower){
         tower.range += rangeBoost;
         tower.fireRate -= fireRateBoost;
@@ -58,7 +72,7 @@ public class Sheriff_Tower : Tower {
 
     protected void removeBoost(Tower tower){
         tower.range -= rangeBoost;
-        tower.fireRate -= fireRateBoost;
+        tower.fireRate += fireRateBoost;
         allies.Remove(tower.gameObject);
     }
 

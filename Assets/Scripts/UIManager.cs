@@ -73,6 +73,11 @@ public class UIManager : MonoBehaviour {
 			SelectTower(TowerType.SLOW);
 		});
 		tower4Button.onClick.AddListener(() => {
+           Sheriff_Tower sheriff = FindObjectOfType<Sheriff_Tower>();
+            if(sheriff != null)
+            {
+                sheriff.Sell();
+            }
 			SelectTower(TowerType.TOWER4);
 		});
 

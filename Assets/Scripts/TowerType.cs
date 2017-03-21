@@ -21,7 +21,7 @@ public static class TowerTypeExtensions
 		case TowerType.SLOW:
 			return 12;
 		case TowerType.TOWER4:
-			return 15;
+			return 0;
 		default:
 			return 0;
 		}
