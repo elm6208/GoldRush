@@ -5,8 +5,8 @@ using UnityEngine;
 public class Slowdown_Tower : Tower {
 
     // Use this for initialization
-    public float slowFactor;
-	
+  public float slowFactor;
+
 	// Update is called once per frame
 	void Update () {
         Aim();
@@ -19,7 +19,7 @@ public class Slowdown_Tower : Tower {
         }
     }
 
-    public override TowerType GetType()
+    public override TowerType GetTowerType()
     {
         return TowerType.SLOW;
     }

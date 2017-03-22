@@ -10,19 +10,19 @@ public class Enemy : MonoBehaviour {
 
 	public int value = 1;
     protected int damageTimer = 0;
-    
+
 
     // Use this for initialization
     void Start () {
 
-        
+
         maxSpeed = 0.1f;
         DistanceTravelled = 0;
         //move = new Vector3(maxSpeed, 0, 0);
 
-        
+
     }
-	
+
 	// Update is called once per frame
 	protected void Update () {
         //  transform.Translate(move);
@@ -37,13 +37,13 @@ public class Enemy : MonoBehaviour {
         GameObject thing = collision.gameObject;
         if(thing.tag == "End"){
             //getting gamecontroller and reducing life
-            GameObject.FindWithTag("MainCamera").GetComponent<GameController>().loseLife();
+            GameObject.FindWithTag("MainCamera").GetComponent<GameController>().onEnemyBreach(this);
 
             Destroy(this.gameObject);
 
 
 
-            
+
         }
 
 
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour {
 
 	 protected void onDeath(){
 		Destroy(this.gameObject);
-		GameObject.FindWithTag ("MainCamera").GetComponent<GameController>().money += value;
+		GameObject.FindWithTag ("MainCamera").GetComponent<GameController>().onEnemyDeath(this);
 
     }
 
