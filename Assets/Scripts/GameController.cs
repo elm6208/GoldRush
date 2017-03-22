@@ -36,6 +36,8 @@ public class GameController : MonoBehaviour {
 
 	protected List<Enemy> enemies;
 
+	protected GameObject enemyEndHelp;
+
 	public int CurrentWave
 	{
 		// not perfect, but we can change it when we add pauses
@@ -57,7 +59,7 @@ public class GameController : MonoBehaviour {
 		placer = Instantiate(placerPrefab, new Vector3(), Quaternion.identity).GetComponent<Placer> ();
         ui = Instantiate(UICanvasPrefab, new Vector3(), Quaternion.identity).GetComponent<UIManager>();
 
-
+				enemyEndHelp = GameObject.Find("EnemyEndHelp");
 
     }
 
@@ -110,6 +112,19 @@ public class GameController : MonoBehaviour {
             }
         }*/
 
+				// check if guide UI buttons are pressed
+				if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(ray, out hit)){
+								print(hit.collider);
+                if(hit.collider.gameObject.tag == "GuideUIButton"){
+                    progressTutorial();
+                }
+            }
+
+        }
 
         if (Input.GetMouseButtonDown(0) && placer.Placing == TowerType.NONE)
         {
@@ -214,6 +229,10 @@ public class GameController : MonoBehaviour {
 		wavePaused = false;
 		timerCountdown = 0;
 		ui.SetNextWaveButtonActive(false);
+	}
+
+	public void progressTutorial() {
+		
 	}
 
 }
