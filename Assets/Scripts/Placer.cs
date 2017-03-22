@@ -9,6 +9,7 @@ public class Placer : MonoBehaviour {
 	public GameObject basicTower;
 	public GameObject dynamiteTower;
     public GameObject slowTower;
+    public GameObject sheriffTower;
 	private bool currentlyValid = false;
 	public GameObject placerRange;
 
@@ -30,8 +31,11 @@ public class Placer : MonoBehaviour {
 			return basicTower;
 		case TowerType.DYNAMITE:
 			return dynamiteTower;
-            case TowerType.SLOW:
-                return slowTower;
+        case TowerType.SLOW:
+            return slowTower;
+        case TowerType.TOWER4:
+            return sheriffTower;
+
 		}
 	}
 
