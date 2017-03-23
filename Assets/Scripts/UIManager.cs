@@ -42,6 +42,9 @@ public class UIManager : MonoBehaviour {
 	GameObject helpButton;
 	GameObject hireSomePeeps;
 	GameObject selectTowerHelp;
+	GameObject unitsExplained;
+	GameObject statsHelp;
+	GameObject goGetEm;
 
 	// Use this for initialization
 	void Start () {
@@ -111,6 +114,21 @@ public class UIManager : MonoBehaviour {
 
 		selectTowerHelp = transform.Find("SelectTowerHelp").gameObject;
 		selectTowerHelp.transform.Find ("SelectTowerHelpButton").gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
+			gameController.progressTutorial(5);
+		});
+
+		unitsExplained = transform.Find("UnitsExplained").gameObject;
+		unitsExplained.transform.Find ("UnitsExplainedButton").gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
+			gameController.progressTutorial(3);
+		});
+
+		statsHelp = transform.Find("StatsHelp").gameObject;
+		statsHelp.transform.Find ("StatsHelpButton").gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
+			gameController.progressTutorial(4);
+		});
+
+		goGetEm = transform.Find("GoGetEm").gameObject;
+		goGetEm.transform.Find ("GoGetEmButton").gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
 			gameController.progressTutorial(-1);
 		});
 
@@ -232,7 +250,10 @@ public class UIManager : MonoBehaviour {
 
 	public void SetTutorialStage(int stage) {
 		hireSomePeeps.SetActive(stage == 1);
-		selectTowerHelp.SetActive(stage == 2);
+		unitsExplained.SetActive(stage == 2);
+		statsHelp.SetActive(stage == 3);
+		selectTowerHelp.SetActive(stage == 4);
+		goGetEm.SetActive(stage == 5);
 		helpButton.SetActive(stage == -1);
 	}
 }

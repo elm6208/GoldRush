@@ -239,7 +239,9 @@ public class GameController : MonoBehaviour {
 	tutorial stages:
 	 0: baddies are tryna get to the end thing!
 	 1: buy towers!!!
-	 2: click on a tower to select it!!
+	 2: what the towers do!
+	 3: stats help
+	 4: click on a tower to select it!!
 	*/
 
 	private int tutorialStage = 0;
