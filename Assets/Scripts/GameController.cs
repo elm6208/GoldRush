@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
     public int enemiesInWave;
     public int numWaves;
     public GameObject enemy;
+    public GameObject enemy2;
     public float spawnX;
     public float spawnY;
     public float spawnZ;
@@ -153,15 +154,114 @@ public class GameController : MonoBehaviour {
                 //if timer reaches zero
                 if (timerCountdown <= 0f)
                 {
-										print("spawn " + enemyCountdown + " | " + enemiesInWave);
-                    //spawn an enemy
-                    GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
-										enemies.Add(newEnemy.GetComponent<Enemy>());
+                    if (CurrentWave < 4)
+                    {
+                        //spawn an enemy
+                        GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                        enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                    newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave/2);
+                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
 
-                    //decrease enemy countdown
-                    enemyCountdown--;
+                        //decrease enemy countdown
+                        enemyCountdown--;
+                    }
+
+                    //spawn only one armor enemy in wave 5
+                    if (CurrentWave == 4)
+                    {
+                        //spawn an armor enemy
+                        GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                        enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                        //newEnemy.GetComponent<MeshRenderer>().material.color = Color.blue;
+
+                        //decrease enemy countdown
+                        enemyCountdown = 0;
+                    }
+
+                    if (CurrentWave > 4 && CurrentWave < 7)
+                    {
+                        //spawn an enemy
+                        GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                        enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+
+                        //decrease enemy countdown
+                        enemyCountdown--;
+                    }
+
+                    if (CurrentWave >= 7 && CurrentWave < 10)
+                    {
+
+                        if (enemyCountdown == enemiesInWave || enemyCountdown == 1)
+                        {
+                            GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                            enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                            newEnemy.GetComponent<ArmorEnemy>().armor = 2 + 1 * (CurrentWave / 2);
+
+                        }
+                        else
+                        {
+                            //spawn an enemy
+                            GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                            enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                        }
+
+
+
+                        //decrease enemy countdown
+                        enemyCountdown--;
+                    }
+
+                    if (CurrentWave >= 10 && CurrentWave < 15)
+                    {
+
+                        if (enemyCountdown == enemiesInWave - 1 || enemyCountdown == 2 || enemyCountdown == enemiesInWave || enemyCountdown == 1)
+                        {
+                            GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                            enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                            newEnemy.GetComponent<ArmorEnemy>().armor = 2 + 1 * (CurrentWave / 2);
+
+                        }
+                        else
+                        {
+                            //spawn an enemy
+                            GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                            enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                        }
+
+
+
+                        //decrease enemy countdown
+                        enemyCountdown--;
+                    }
+
+                    if (CurrentWave == 15)
+                    {
+                        if (enemyCountdown > 10)
+                        {
+                            enemyCountdown = 10;
+                        }
+                        //spawn an armor enemy
+                        GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
+                        enemies.Add(newEnemy.GetComponent<Enemy>());
+
+                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                        newEnemy.GetComponent<ArmorEnemy>().armor = 2 + 1 * (CurrentWave / 2);
+
+                        //decrease enemy countdown
+                        enemyCountdown--;
+                    }
 
                     //if this is the end of the wave
                     if (enemyCountdown <= 0)
