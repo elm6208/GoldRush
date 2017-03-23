@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	protected void Update () {
+	protected virtual void Update () {
         //  transform.Translate(move);
         //  DistanceTravelled += move.magnitude;
         damageTimer -= 1;

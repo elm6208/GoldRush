@@ -15,6 +15,14 @@ public class ArmorEnemy : Enemy {
 		
 	}
 
+    protected override void Update()
+    {
+        damageTimer -= 1;
+        if (damageTimer <= 0)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.blue;
+        }
+    }
 
     public override void takeDamage(int dmg, bool pierce){
         //checking if armor is gone, then taking dmg like normal if it is
