@@ -9,7 +9,7 @@ public class ArmorEnemy : Enemy {
 	// Use this for initialization
 	void Start () {
         hp = 10;
-        armor = 2;
+        armor = 5;
         maxSpeed = 0.05f;
         distanceTravelled = 0;
 		

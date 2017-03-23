@@ -7,6 +7,9 @@ public class GameController : MonoBehaviour {
 	public int money;
 	public int lives;
 
+    public int healthBoost;
+    public int armorBoost;
+
     private Tower selectedTower;
     public float spawnTimer;
     public int enemiesInWave;
@@ -160,7 +163,7 @@ public class GameController : MonoBehaviour {
                         GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                         enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                        newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
 
                         //decrease enemy countdown
                         enemyCountdown--;
@@ -173,7 +176,7 @@ public class GameController : MonoBehaviour {
                         GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                         enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                        newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
                         //newEnemy.GetComponent<MeshRenderer>().material.color = Color.blue;
 
                         //decrease enemy countdown
@@ -186,7 +189,7 @@ public class GameController : MonoBehaviour {
                         GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                         enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                        newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
 
                         //decrease enemy countdown
                         enemyCountdown--;
@@ -200,7 +203,7 @@ public class GameController : MonoBehaviour {
                             GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                             enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                            newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
                             newEnemy.GetComponent<ArmorEnemy>().armor = 2 + 1 * (CurrentWave / 2);
 
                         }
@@ -210,7 +213,7 @@ public class GameController : MonoBehaviour {
                             GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                             enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                            newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
                         }
 
 
@@ -227,8 +230,8 @@ public class GameController : MonoBehaviour {
                             GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                             enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
-                            newEnemy.GetComponent<ArmorEnemy>().armor = 2 + 1 * (CurrentWave / 2);
+                            newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
+                            newEnemy.GetComponent<ArmorEnemy>().armor = 2 + armorBoost * (CurrentWave / 2);
 
                         }
                         else
@@ -237,7 +240,7 @@ public class GameController : MonoBehaviour {
                             GameObject newEnemy = Instantiate(enemy, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                             enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                            newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
+                            newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
                         }
 
 
@@ -256,8 +259,8 @@ public class GameController : MonoBehaviour {
                         GameObject newEnemy = Instantiate(enemy2, new Vector3(spawnX, spawnY, spawnZ), Quaternion.identity);
                         enemies.Add(newEnemy.GetComponent<Enemy>());
 
-                        newEnemy.GetComponent<Enemy>().hp = 10 + 2 * (CurrentWave / 2);
-                        newEnemy.GetComponent<ArmorEnemy>().armor = 2 + 1 * (CurrentWave / 2);
+                        newEnemy.GetComponent<Enemy>().hp = 10 + healthBoost * (CurrentWave / 2);
+                        newEnemy.GetComponent<ArmorEnemy>().armor = 2 + armorBoost * (CurrentWave / 2);
 
                         //decrease enemy countdown
                         enemyCountdown--;
@@ -267,7 +270,7 @@ public class GameController : MonoBehaviour {
                     if (enemyCountdown <= 0)
                     {
 											//increase enemies in wave by 2
-											enemiesInWave += 2;
+											enemiesInWave += 1;
 											//reset enemy countdown if not final wave
 											if(waveCountdown > 1){
 													enemyCountdown = enemiesInWave;

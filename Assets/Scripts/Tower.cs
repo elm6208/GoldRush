@@ -30,7 +30,7 @@ public class Tower : MonoBehaviour {
 	protected void Start () {
 		value = GetTowerType().Cost();
 		range = GetTowerType().Range();
-    promoteCost = 3;
+    promoteCost = 4;
 		enemies = new List<GameObject> ();
 		origMat = gameObject.GetComponent<Renderer> ().material;
 	}
@@ -99,7 +99,7 @@ public class Tower : MonoBehaviour {
       fireRate -= 0.05f;
       range += 0.5f;
       value += promoteCost;
-      promoteCost += 3;
+      promoteCost += 4;
   }
 
   public virtual void Sell()

@@ -79,7 +79,7 @@ public class Dynamite : Vehicle {
             if (e != null)
             {
                 Enemy enemyScript = e.GetComponent<Enemy>();
-                enemyScript.takeDamage(5,true);
+                enemyScript.takeDamage(3,true);
             }
         }
         Destroy(gameObject);
