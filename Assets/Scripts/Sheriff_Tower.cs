@@ -16,8 +16,9 @@ public class Sheriff_Tower : Tower {
 	void Start () {
         enemies = new List<GameObject>();
         allies = new List<GameObject>();
+        origMat = gameObject.GetComponent<Renderer>().material;
 
-	}
+    }
 
 	// Update is called once per frame
 	 void  Update () {

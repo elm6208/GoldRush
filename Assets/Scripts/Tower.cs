@@ -24,7 +24,7 @@ public class Tower : MonoBehaviour {
   public string towerName;
 
 	public Material selectedMat;
-	private Material origMat;
+	protected Material origMat;
 
 	// Use this for initialization
 	protected void Start () {
