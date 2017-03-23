@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour {
 	UnityEngine.UI.Button promoteButton;
 	UnityEngine.UI.Button sellButton;
 	UnityEngine.UI.Button nextWaveButton;
-	GameObject selectedUnitImg;
+	public Sprite gun, tnt, barrel, badge;
+	Image selectedIcon;
 	Text unitNameText;
   Text fireRateText;
   Text damageText;
@@ -38,6 +39,10 @@ public class UIManager : MonoBehaviour {
 	// keeping previous money value so we can update stuff only when this changes
 	int prevMoney = -1;
 
+	GameObject helpButton;
+	GameObject hireSomePeeps;
+	GameObject selectTowerHelp;
+
 	// Use this for initialization
 	void Start () {
 		buttonColorEnabled = new ColorBlock ();
@@ -57,7 +62,7 @@ public class UIManager : MonoBehaviour {
 		tower3Button = transform.Find ("Tower3Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		tower4Button = transform.Find ("Tower4Button").gameObject.GetComponent<UnityEngine.UI.Button>();
 		nextWaveButton = transform.Find("NextWaveButton").gameObject.GetComponent<UnityEngine.UI.Button>();
-		selectedUnitImg = transform.Find ("SelectedUnitImg").gameObject;
+		selectedIcon = transform.Find ("SelectedIcon").gameObject.GetComponent<Image>();
 		unitNameText = transform.Find ("UnitNameText").GetComponent<Text>();
     fireRateText = transform.Find ("FireRateText").GetComponent<Text>();
     damageText = transform.Find ("DamageText").GetComponent<Text>();
@@ -97,6 +102,21 @@ public class UIManager : MonoBehaviour {
 
 		nextWaveButton.onClick.AddListener(() => {
 			gameController.StartWave();
+		});
+
+		hireSomePeeps = transform.Find("HireSomePeeps").gameObject;
+		hireSomePeeps.transform.Find ("HirePeepsButton").gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
+			gameController.progressTutorial(2);
+		});
+
+		selectTowerHelp = transform.Find("SelectTowerHelp").gameObject;
+		selectTowerHelp.transform.Find ("SelectTowerHelpButton").gameObject.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
+			gameController.progressTutorial(-1);
+		});
+
+		helpButton = transform.Find("HelpButton").gameObject;
+		helpButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => {
+			gameController.progressTutorial(0);
 		});
 
 		RefreshTowerDisplay();
@@ -163,10 +183,26 @@ public class UIManager : MonoBehaviour {
 			fireRateText.text = null;
 			damageText.text = null;
 			rangeText.text = null;
-
+			selectedIcon.gameObject.SetActive(false);
 			promoteHoverText.text = null;
 			sellHoverText.text = null;
 		} else {
+			selectedIcon.gameObject.SetActive(true);
+			switch(DisplayedTower.GetTowerType()) {
+				case TowerType.BASIC:
+					selectedIcon.sprite = gun;
+					break;
+				case TowerType.DYNAMITE:
+					selectedIcon.sprite = tnt;
+					break;
+				case TowerType.SLOW:
+					selectedIcon.sprite = barrel;
+					break;
+				case TowerType.TOWER4:
+					selectedIcon.sprite = badge;
+					break;
+			}
+
 			unitNameText.text = "Name:" + DisplayedTower.towerName;
 			fireRateText.text = "Fire Rate: " + DisplayedTower.fireRate;
 			damageText.text = "Damage: " + DisplayedTower.damage;
@@ -192,5 +228,11 @@ public class UIManager : MonoBehaviour {
 
 	public void SetNextWaveButtonActive(bool active) {
 		nextWaveButton.gameObject.SetActive(active);
+	}
+
+	public void SetTutorialStage(int stage) {
+		hireSomePeeps.SetActive(stage == 1);
+		selectTowerHelp.SetActive(stage == 2);
+		helpButton.SetActive(stage == -1);
 	}
 }

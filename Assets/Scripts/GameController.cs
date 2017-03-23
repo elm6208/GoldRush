@@ -36,7 +36,10 @@ public class GameController : MonoBehaviour {
 
 	protected List<Enemy> enemies;
 
+	// stuff to toggle for tutorial
 	protected GameObject enemyEndHelp;
+	protected GameObject hireSomePeeps;
+	protected GameObject selectTowerHelp;
 
 	public int CurrentWave
 	{
@@ -60,6 +63,7 @@ public class GameController : MonoBehaviour {
         ui = Instantiate(UICanvasPrefab, new Vector3(), Quaternion.identity).GetComponent<UIManager>();
 
 				enemyEndHelp = GameObject.Find("EnemyEndHelp");
+				enemyEndHelp.SetActive(false);
 
     }
 
@@ -120,7 +124,7 @@ public class GameController : MonoBehaviour {
             if (Physics.Raycast(ray, out hit)){
 								print(hit.collider);
                 if(hit.collider.gameObject.tag == "GuideUIButton"){
-                    progressTutorial();
+                    progressTutorial(1);
                 }
             }
 
@@ -231,8 +235,24 @@ public class GameController : MonoBehaviour {
 		ui.SetNextWaveButtonActive(false);
 	}
 
-	public void progressTutorial() {
-		
+	/*
+	tutorial stages:
+	 0: baddies are tryna get to the end thing!
+	 1: buy towers!!!
+	 2: click on a tower to select it!!
+	*/
+
+	private int tutorialStage = 0;
+
+	public void progressTutorial(int nextStage) {
+
+		// pause game if tutorial is in progress
+		Time.timeScale = (nextStage == -1) ? 1 : 0;
+
+		enemyEndHelp.SetActive(nextStage == 0);
+		ui.SetTutorialStage(nextStage);
+
+		tutorialStage = nextStage;
 	}
 
 }

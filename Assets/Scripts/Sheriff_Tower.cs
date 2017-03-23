@@ -8,18 +8,22 @@ public class Sheriff_Tower : Tower {
     public float rangeBoost;
     public float fireRateBoost;
 
+    public override TowerType GetTowerType() {
+      return TowerType.TOWER4;
+    }
+
 	// Use this for initialization
 	void Start () {
         enemies = new List<GameObject>();
         allies = new List<GameObject>();
-		
+
 	}
-	
+
 	// Update is called once per frame
 	 void  Update () {
         Aim();
         SheriffAim();
-		
+
 	}
 
     public override void RangeEntered(Collider other){
@@ -59,7 +63,7 @@ public class Sheriff_Tower : Tower {
             {
                 removeBoost(allies[i].GetComponent<Tower>());
                 i--;
-            } 
+            }
         }
 
         Destroy(this.gameObject);
