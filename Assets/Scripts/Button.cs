@@ -17,4 +17,8 @@ public class Button : MonoBehaviour {
     public void OnClick(){
         Application.LoadLevel("Level_01");
     }
+
+    public void Exit(){
+        Application.Quit();
+    }
 }
